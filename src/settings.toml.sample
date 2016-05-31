@@ -1,0 +1,7 @@
+[settings]
+apikey = "<Your API KEY>"
+redmine = "<Redmine URL>"
+project_id = "<Project ID>"
+tracker_id = "<Tracker ID>"
+title_suffix = "suffix"
+description = "description"

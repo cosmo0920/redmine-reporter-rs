@@ -1,0 +1,10 @@
+[package]
+name = "redmine_reporter"
+version = "0.1.0"
+authors = ["Hiroshi Hatake <cosmo0920.wp@gmail.com>"]
+
+[dependencies]
+hyper = "~0.9.0"
+toml = "~0.1"
+rustc-serialize = "~0.3.18"
+time = "~0.1.35"
