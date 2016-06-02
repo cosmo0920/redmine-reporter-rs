@@ -1,6 +1,8 @@
 Redmine Reporter
 ===
 
+[![Build Status](https://travis-ci.org/cosmo0920/redmine-reporter-rs.svg?branch=master)](https://travis-ci.org/cosmo0920/redmine-reporter-rs)
+
 A tiny Redmine issue reporter written in Rust language.
 
 ### How to Use
