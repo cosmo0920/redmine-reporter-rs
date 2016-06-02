@@ -48,7 +48,7 @@ struct Config {
 fn parse_toml() -> Config {
     let config_content = include_str!("settings.toml");
     println!("config:\n{}", config_content);
-    let mut parser = toml::Parser::new(&config_content);
+    let mut parser = toml::Parser::new(config_content);
     let toml = match parser.parse() {
         Some(toml) => toml::Value::Table(toml),
         None => panic!("Couldn't parse toml"),
@@ -66,13 +66,12 @@ fn get_date() -> String {
     if args.len() < 2 {
         panic!("Must specify date.");
     }
-    let date = match time::strptime(&*args[1], "%Y-%m-%d") {
+    match time::strptime(&*args[1], "%Y-%m-%d") {
         Ok(d) => time::strftime("%Y-%m-%d", &d).unwrap(),
         Err(_) => {
             panic!("Invalid time format. Use: %Y-%m-%d");
         }
-    };
-    date
+    }
 }
 
 fn build_issue(config: Config, date: String) -> String {
@@ -80,7 +79,7 @@ fn build_issue(config: Config, date: String) -> String {
         project_id: config.project_id,
         tracker_id: config.tracker_id,
         subject: format!("{} {}", date, config.title_suffix),
-        description: format!("{}", config.description),
+        description: config.description,
     };
     let issue = Issue { issue: contents };
     let json = match json::encode(&issue) {
