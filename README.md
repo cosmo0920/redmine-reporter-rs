@@ -23,7 +23,7 @@ and then,
 
 ```bash
 $ cargo build
-$ cargo run -- [date (fmt: %Y-%m-%d)]
+$ cargo run -- <date (format: %Y-%m-%d)> # e.g.) cargo run -- 2016-06-02
 ```
 
 ### LICENSE
