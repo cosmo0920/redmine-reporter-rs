@@ -1,16 +1,16 @@
 #[macro_use]
 extern crate hyper;
-extern crate toml;
 extern crate rustc_serialize;
 extern crate time;
+extern crate toml;
 
+use std::env;
+use std::process;
 use std::io::Read;
 use hyper::Client;
 use hyper::header::{Headers, ContentType, ContentLength};
 use rustc_serialize::json;
 use rustc_serialize::Decodable;
-use std::process;
-use std::env;
 
 header! { (XRedmineAPIKey, "X-Redmine-API-Key") => [String] }
 
