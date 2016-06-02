@@ -8,7 +8,7 @@ use std::io::Read;
 use hyper::Client;
 use hyper::header::{Headers, ContentType, ContentLength};
 use rustc_serialize::json;
-use rustc_serialize::{Encodable, Decodable};
+use rustc_serialize::Decodable;
 use std::process;
 use std::env;
 
