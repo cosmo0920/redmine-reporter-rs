@@ -91,13 +91,7 @@ fn build_issue(config: Config, date: String) -> String {
     json.to_owned()
 }
 
-fn main() {
-    let config_content = include_str!("settings.toml");
-    let config = parse_toml(config_content);
-    let date = get_date();
-    let json = build_issue(config.clone(), date);
-    println!("{}", &*json);
-
+fn send_redmine(config: Config, json: String) {
     let client = Client::new();
     let mut headers = Headers::new();
     let redmine = config.redmine;
@@ -117,4 +111,14 @@ fn main() {
         }
     };
     println!("{}", body);
+}
+
+fn main() {
+    let config_content = include_str!("settings.toml");
+    let config = parse_toml(config_content);
+    let date = get_date();
+    let json = build_issue(config.clone(), date);
+    println!("{}", &*json);
+
+    send_redmine(config, json);
 }
