@@ -60,11 +60,13 @@ fn parse_toml(config_content: &'static str) -> Config {
     config.settings
 }
 
-fn get_date() -> String {
-    let args: Vec<String> = env::args().collect();
+fn validate_argument(args: Vec<String>) {
     if args.len() < 2 {
         panic!("Must specify date.");
     }
+}
+
+fn get_date(args: Vec<String>) -> String {
     match time::strptime(&*args[1], "%Y-%m-%d") {
         Ok(d) => time::strftime("%Y-%m-%d", &d).unwrap(),
         Err(_) => {
@@ -114,9 +116,11 @@ fn send_redmine(config: Config, json: String) {
 }
 
 fn main() {
+    let args: Vec<String> = env::args().collect();
+    validate_argument(args.clone());
     let config_content = include_str!("settings.toml");
     let config = parse_toml(config_content);
-    let date = get_date();
+    let date = get_date(args.clone());
     let json = build_issue(config.clone(), date);
     println!("{}", &*json);
 
