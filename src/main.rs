@@ -45,8 +45,7 @@ struct Config {
     description: String,
 }
 
-fn parse_toml() -> Config {
-    let config_content = include_str!("settings.toml");
+fn parse_toml(config_content: &'static str) -> Config {
     println!("config:\n{}", config_content);
     let mut parser = toml::Parser::new(config_content);
     let toml = match parser.parse() {
@@ -93,7 +92,8 @@ fn build_issue(config: Config, date: String) -> String {
 }
 
 fn main() {
-    let config = parse_toml();
+    let config_content = include_str!("settings.toml");
+    let config = parse_toml(config_content);
     let date = get_date();
     let json = build_issue(config.clone(), date);
     println!("{}", &*json);
