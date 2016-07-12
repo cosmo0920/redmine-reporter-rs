@@ -3,7 +3,7 @@ language: rust
 rust:
   - nightly
   - beta
-  - 1.9.0
+  - 1.10.0
 
 script:
   - cp src/settings.toml.sample src/settings.toml
