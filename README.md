@@ -28,7 +28,7 @@ $ cargo run -- <date (format: %Y-%m-%d)> # e.g.) cargo run -- 2016-06-02
 ```
 ##### For Windows
 
-If you use this library in Windows, please install Visual Studio 2015 and then rust compiler which is targeted for MSVC API and its package manager, which is called cargo via [rustup.rs](https://www.rustup.rs/).
+If you use this tiny executable tool in Windows, please install Visual Studio 2015 and then rust compiler which is targeted for MSVC API and its package manager, which is called cargo via [rustup.rs](https://www.rustup.rs/).
 
 You must install openssl which is suitable ABI.
 
