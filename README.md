@@ -2,6 +2,7 @@ Redmine Reporter
 ===
 
 [![Build Status](https://travis-ci.org/cosmo0920/redmine-reporter-rs.svg?branch=master)](https://travis-ci.org/cosmo0920/redmine-reporter-rs)
+[![Build status](https://ci.appveyor.com/api/projects/status/qb36vnkkpfa7w3yo/branch/master?svg=true)](https://ci.appveyor.com/project/cosmo0920/redmine-reporter-rs/branch/master)
 
 A tiny Redmine issue reporter written in Rust language.
 
