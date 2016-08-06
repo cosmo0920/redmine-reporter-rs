@@ -26,6 +26,19 @@ and then,
 $ cargo build
 $ cargo run -- <date (format: %Y-%m-%d)> # e.g.) cargo run -- 2016-06-02
 ```
+##### For Windows
+
+If you use this library in Windows, please install Visual Studio 2015 and then rust compiler which is targeted for MSVC API and its package manager, which is called cargo via [rustup.rs](https://www.rustup.rs/).
+
+You must install openssl which is suitable ABI.
+
+If you use MSVC ABI rust compiler, please consider to install OpenSSL which is compiled with MSVC. In more detail, please refer this page: https://slproweb.com/products/Win32OpenSSL.html
+
+If you execute this OpenSSL installer by default, you must set the following environment variables:
+
+ * OPENSSL\_INCLUDE\_DIR=C:\OpenSSL\include
+ * OPENSSL\_LIB\_DIR=C:\OpenSSL\lib
+ * OPENSSL\_LIBS=ssleay32:libeay32
 
 ### LICENSE
 
