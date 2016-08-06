@@ -22,4 +22,5 @@ install:
 build: false
 
 test_script:
+  - cp src/settings.toml.sample src/settings.toml
   - cargo build
