@@ -3,21 +3,23 @@
 
 #[macro_use]
 extern crate hyper;
-extern crate rustc_serialize;
 extern crate time;
 extern crate toml;
+extern crate serde;
+extern crate serde_json;
+#[macro_use]
+extern crate serde_derive;
 
 use std::env;
 use std::process;
 use std::io::Read;
 use hyper::Client;
 use hyper::header::{Headers, ContentType, ContentLength};
-use rustc_serialize::json;
-use rustc_serialize::Decodable;
+use toml::de::Error;
 
 header! { (XRedmineAPIKey, "X-Redmine-API-Key") => [String] }
 
-#[derive(Debug, Clone, PartialEq, Eq, RustcEncodable, RustcDecodable)]
+#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
 struct IssueContents {
     project_id: String,
     tracker_id: String,
@@ -25,17 +27,17 @@ struct IssueContents {
     description: String,
 }
 
-#[derive(Debug, Clone, PartialEq, Eq, RustcEncodable, RustcDecodable)]
+#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
 struct Issue {
     issue: IssueContents,
 }
 
-#[derive(Debug, RustcDecodable)]
+#[derive(Debug, Deserialize)]
 struct Configuration {
     settings: Config,
 }
 
-#[derive(Debug, Clone, PartialEq, Eq, RustcDecodable)]
+#[derive(Debug, Clone, PartialEq, Eq, Deserialize)]
 struct Config {
     apikey: String,
     redmine: String,
@@ -47,13 +49,8 @@ struct Config {
 
 fn parse_toml(config_content: &'static str) -> Config {
     println!("config:\n{}", config_content);
-    let mut parser = toml::Parser::new(config_content);
-    let toml = match parser.parse() {
-        Some(toml) => toml::Value::Table(toml),
-        None => panic!("Couldn't parse toml"),
-    };
-    let mut decoder = toml::Decoder::new(toml);
-    let config = match Configuration::decode(&mut decoder) {
+    let configuration: Result<Configuration, Error> = toml::from_str(config_content);
+    let config = match configuration {
         Ok(config) => config,
         Err(_) => panic!("Couldn't decode toml with Configuration struct"),
     };
@@ -83,7 +80,7 @@ fn build_issue(config: Config, date: String) -> String {
         description: config.description,
     };
     let issue = Issue { issue: contents };
-    let json = match json::encode(&issue) {
+    let json = match serde_json::to_string(&issue) {
         Ok(json) => json,
         Err(_) => {
             println!("Couldn't convert as json");
