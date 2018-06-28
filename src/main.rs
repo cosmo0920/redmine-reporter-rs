@@ -1,8 +1,7 @@
 #![cfg_attr(feature = "dev", feature(plugin))]
 #![cfg_attr(feature = "dev", plugin(clippy))]
 
-#[macro_use]
-extern crate hyper;
+extern crate reqwest;
 extern crate serde;
 extern crate serde_json;
 extern crate time;
@@ -10,14 +9,15 @@ extern crate toml;
 #[macro_use]
 extern crate serde_derive;
 
-use hyper::header::{ContentLength, ContentType, Headers};
-use hyper::Client;
+use reqwest::header::{ContentLength, ContentType, Headers};
+use reqwest::Client;
 use std::env;
 use std::io::Read;
 use std::process;
 use toml::de::Error;
 
-header! { (XRedmineAPIKey, "X-Redmine-API-Key") => [String] }
+// Use headers.set_raw(...) for now.
+// header! { (XRedmineAPIKey, "X-Redmine-API-Key") => [String] }
 
 #[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
 struct IssueContents {
@@ -109,14 +109,14 @@ fn send_redmine(config: Config, json: String) {
     let client = Client::new();
     let mut headers = Headers::new();
     let redmine = config.redmine;
-    headers.set(XRedmineAPIKey(config.apikey));
+    headers.set_raw("X-Redmine-API-Key", &*config.apikey);
     headers.set(ContentType::json());
     headers.set(ContentLength(json.len() as u64));
-    let response = client.post(&*redmine).headers(headers).body(&*json).send();
+    let response = client.post(&*redmine).headers(headers).body(json).send();
     let mut body = String::new();
     let _ = match response {
         Ok(mut result) => {
-            println!("{}", result.status);
+            println!("{}", result.status());
             result.read_to_string(&mut body)
         }
         Err(_) => {
