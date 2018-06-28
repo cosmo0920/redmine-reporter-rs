@@ -18,6 +18,7 @@ project_id = "<Project ID>"
 tracker_id = "<Tracker ID>"
 title_suffix = "suffix"
 description = "description"
+specify_deadline = (false|true)
 ```
 
 and then,
