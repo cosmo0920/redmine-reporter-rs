@@ -3,18 +3,18 @@
 
 #[macro_use]
 extern crate hyper;
-extern crate time;
-extern crate toml;
 extern crate serde;
 extern crate serde_json;
+extern crate time;
+extern crate toml;
 #[macro_use]
 extern crate serde_derive;
 
-use std::env;
-use std::process;
-use std::io::Read;
+use hyper::header::{ContentLength, ContentType, Headers};
 use hyper::Client;
-use hyper::header::{Headers, ContentType, ContentLength};
+use std::env;
+use std::io::Read;
+use std::process;
 use toml::de::Error;
 
 header! { (XRedmineAPIKey, "X-Redmine-API-Key") => [String] }
@@ -47,7 +47,7 @@ struct Config {
     tracker_id: String,
     title_suffix: String,
     description: String,
-    specify_deadline: bool
+    specify_deadline: bool,
 }
 
 fn parse_toml(config_content: &'static str) -> Config {
