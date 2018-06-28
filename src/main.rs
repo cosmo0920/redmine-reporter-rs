@@ -25,6 +25,8 @@ struct IssueContents {
     tracker_id: String,
     subject: String,
     description: String,
+    start_date: Option<String>,
+    due_date: Option<String>,
 }
 
 #[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
@@ -45,6 +47,7 @@ struct Config {
     tracker_id: String,
     title_suffix: String,
     description: String,
+    specify_deadline: bool
 }
 
 fn parse_toml(config_content: &'static str) -> Config {
@@ -72,13 +75,25 @@ fn get_date(args: Vec<String>) -> String {
     }
 }
 
+fn get_deadline(config: &Config, date: &String) -> Option<String> {
+    if config.specify_deadline {
+        Some(format!("{}", date))
+    } else {
+        None
+    }
+}
+
 fn build_issue(config: Config, date: String) -> String {
+    let deadline = get_deadline(&config, &date);
     let contents = IssueContents {
         project_id: config.project_id,
         tracker_id: config.tracker_id,
         subject: format!("{} {}", date, config.title_suffix),
         description: config.description,
+        start_date: deadline.clone(),
+        due_date: deadline.clone(),
     };
+
     let issue = Issue { issue: contents };
     let json = match serde_json::to_string(&issue) {
         Ok(json) => json,
