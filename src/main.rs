@@ -1,6 +1,3 @@
-#![cfg_attr(feature = "dev", feature(plugin))]
-#![cfg_attr(feature = "dev", plugin(clippy))]
-
 extern crate reqwest;
 extern crate serde;
 extern crate serde_json;
