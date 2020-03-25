@@ -8,8 +8,8 @@ environment:
   matrix:
     - TARGET: x86_64-pc-windows-msvc
       BITS: 64
-      RUSTVER: 1.27.0
-      OPENSSLVER: 1_0_2o
+      RUSTVER: 1.42.0
+      OPENSSLVER: 1_1_1e
 install:
   - ps: Start-FileDownload "http://slproweb.com/download/Win${env:BITS}OpenSSL-${env:OPENSSLVER}.exe"
   - Win%BITS%OpenSSL-%OPENSSLVER%.exe /SILENT /VERYSILENT /SP- /DIR="C:\OpenSSL"
